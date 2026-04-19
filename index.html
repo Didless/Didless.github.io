@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Surat Cinta Untuk Hesti Vania 💌</title>
+    <style>
+        /* Gaya Dasar & Background */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+            color: #4a4a4a;
+            overflow-x: hidden;
+        }
+
+        /* Layar Pembuka (Agar musik bisa autoplay setelah klik) */
+        #intro-screen {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100vh;
+            background-color: rgba(255, 240, 245, 0.95);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+            transition: opacity 1s ease;
+        }
+        .btn-start {
+            padding: 15px 40px;
+            font-size: 1.2em;
+            background-color: #d63031;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(214, 48, 49, 0.3);
+            animation: bounce 2s infinite;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-weight: bold;
+        }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-20px); }
+            60% { transform: translateY(-10px); }
+        }
+
+        /* Area Konten Utama */
+        #main-content {
+            display: none;
+            padding: 40px 20px;
+            max-width: 1100px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        h1 {
+            color: #d63031;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+        .subtitle {
+            font-style: italic;
+            color: #636e72;
+            margin-bottom: 40px;
+            font-size: 1.1em;
+        }
+
+        /* Grid Amplop */
+        .envelope-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            perspective: 1000px; /* Penting untuk efek 3D */
+        }
+
+        /* Efek Flip Card 3D */
+        .flip-card {
+            background-color: transparent;
+            width: 100%;
+            height: 340px;
+            cursor: pointer;
+        }
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-style: preserve-3d;
+        }
+        .flip-card.open .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        /* Bagian Depan & Belakang Amplop */
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        /* Desain Depan (Amplop Tertutup) */
+        .flip-card-front {
+            background-color: #fdfaf6;
+            border: 2px solid #e8d0c3;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+        /* Segitiga Penutup Amplop */
+        .flip-card-front::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            border-top: 140px solid #f3e5db;
+            border-left: 150px solid transparent;
+            border-right: 150px solid transparent;
+            z-index: 1;
+        }
+        .envelope-text {
+            z-index: 2;
+            margin-top: 60px;
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #a27b5c;
+        }
+        .click-hint {
+            z-index: 2;
+            font-size: 0.8em;
+            color: #d63031;
+            margin-top: 15px;
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        /* Desain Belakang (Foto & Pesan) */
+        .flip-card-back {
+            background-color: #ffffff;
+            transform: rotateY(180deg);
+            padding: 15px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #f1f2f6;
+        }
+        .polaroid-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 5px;
+            border: 1px solid #dfe4ea;
+        }
+        .polaroid-text {
+            margin-top: auto;
+            margin-bottom: auto;
+            font-size: 0.95em;
+            line-height: 1.4;
+            color: #2f3542;
+            font-style: italic;
+        }
+        .heart-icon {
+            color: #ff4757;
+            font-size: 1.2em;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div id="intro-screen">
+        <h1 style="text-align: center; font-family: 'Segoe UI', sans-serif;">Ada 6 Surat Cinta Untukmu...</h1>
+        <button class="btn-start" onclick="bukaKejutan()">Buka Sekarang 💌</button>
+    </div>
+
+    <audio id="laguLatar" loop>
+        <source src="musik.mp3" type="audio/mpeg">
+    </audio>
+
+    <div id="main-content">
+        <h1>Selamat Ulang Tahun Yang ke-24, Sayang! <span class="heart-icon">❤️</span></h1>
+        <p class="subtitle">A special gift just for you, my love. (Klik amplop untuk membuka)</p>
+
+        <div class="envelope-grid">
+            
+            <div class="flip-card" onclick="this.classList.toggle('open')">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <div class="envelope-text">Surat Ke-1</div>
+                        <div class="click-hint">Klik untuk buka</div>
+                    </div>
+                    <div class="flip-card-back">
+                        <img src="foto1.jpg" alt="Memori 1" class="polaroid-img">
+                        <p class="polaroid-text">HARI PERTAMA KITA...<br>Kenangan manis yang akan selalu kurayakan setiap hari.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flip-card" onclick="this.classList.toggle('open')">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <div class="envelope-text">Surat Ke-2</div>
+                        <div class="click-hint">Klik untuk buka</div>
+                    </div>
+                    <div class="flip-card-back">
+                        <img src="foto2.jpg" alt="Memori 2" class="polaroid-img">
+                        <p class="polaroid-text">PETUALANGAN BERSAMAMU...<br>Mengingat kembali moment moment yang menjadi favoritku.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flip-card" onclick="this.classList.toggle('open')">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <div class="envelope-text">Surat Ke-3</div>
+                        <div class="click-hint">Klik untuk buka</div>
+                    </div>
+                    <div class="flip-card-back">
+                        <img src="foto3.jpg" alt="Memori 3" class="polaroid-img">
+                        <p class="polaroid-text">TAWA YANG KUCINTAI...<br>Setiap senyummu adalah alasan kenapa hariku selalu bersinar terang.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flip-card" onclick="this.classList.toggle('open')">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <div class="envelope-text">Surat Ke-4</div>
+                        <div class="click-hint">Klik untuk buka</div>
+                    </div>
+                    <div class="flip-card-back">
+                        <img src="foto4.jpg" alt="Memori 4" class="polaroid-img">
+                        <p class="polaroid-text">MASA DEPAN INDAH...<br>Aku selalu bermimpi dan berdoa tentang masa depan hebat yang akan kita bangun berdua.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flip-card" onclick="this.classList.toggle('open')">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <div class="envelope-text">Surat Ke-5</div>
+                        <div class="click-hint">Klik untuk buka</div>
+                    </div>
+                    <div class="flip-card-back">
+                        <img src="foto5.jpg" alt="Memori 5" class="polaroid-img">
+                        <p class="polaroid-text">HAL KECIL TENTANGMU...<br>Bahkan hari-hari biasa terasa special dengan kerudung coklat dan celana baggy, kamu selalu terlihat paling sempurna di mataku.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flip-card" onclick="this.classList.toggle('open')">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <div class="envelope-text">Surat Ke-6</div>
+                        <div class="click-hint">Klik untuk buka</div>
+                    </div>
+                    <div class="flip-card-back">
+                        <img src="foto6.jpg" alt="Memori 6" class="polaroid-img">
+                        <p class="polaroid-text">UNTUK SELAMANYA...<br>Terima kasih sudah lahir ke dunia ini. Cinta ini tak pernah lekang oleh waktu. Happy Birthday! ✨</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        function bukaKejutan() {
+            // Mainkan lagu
+            var lagu = document.getElementById("laguLatar");
+            lagu.play();
+            
+            // Transisi layar pembuka ke konten utama
+            var intro = document.getElementById("intro-screen");
+            intro.style.opacity = "0";
+            
+            setTimeout(function() {
+                intro.style.display = "none";
+                document.getElementById("main-content").style.display = "block";
+            }, 800); // Waktu transisi memudar
+        }
+    </script>
+</body>
+</html>
